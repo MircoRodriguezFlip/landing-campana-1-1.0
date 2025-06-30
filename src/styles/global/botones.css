@@ -1,0 +1,38 @@
+.boton-1 {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: var(--primary-color);
+    color: var(--text-color);
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+}
+
+.boton-1:hover {
+    background: var(--text-color-2);
+}
+
+.boton-1:active {
+    transform: scale(0.9);
+}
+
+@media (min-width: 1200px) {
+    .boton-1 {
+        font-size: 22px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .boton-1 {
+        font-size: 28px;
+    }
+}
+
+@media (min-width: 1700px) {
+    .boton-1 {
+        font-size: 32px;
+    }
+}

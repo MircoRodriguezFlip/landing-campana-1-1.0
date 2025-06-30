@@ -1,0 +1,90 @@
+.form {
+    color: var(--text-color);
+    background-color: var(--background-color-2);
+    border-radius: 10px;
+    padding: 20px;
+    padding-bottom: 40px;
+}
+
+.formText {
+    color: var(--primary-color);
+    font-size: 18px;
+}
+
+.camposObligatorios {
+    text-align: end;
+    padding-bottom: 10px;
+    user-select: none;
+}
+
+.campoPrecalificarForm {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+}
+
+.campoPrecalificarForm select,
+.campoPrecalificarForm input,
+.campoPrecalificarForm textarea {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.campoPrecalificarForm label {
+    user-select: none;
+}
+
+.formControl {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 10px;
+    padding: 2px 0;
+    margin-bottom: 14px;
+    background-color: var(--text-color-2);
+    color: var(--text-color);
+    border: none;
+    font-size: 16px;
+    resize: none;
+}
+
+.formControl:focus {
+    outline: none;
+    background-color: var(--primary-color);
+}
+
+.labelError {
+    color: red;
+}
+
+.contentEnvio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.mensajeErrorGeneral {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.mensajeErrorGeneral p {
+    position: absolute;
+    color: var(--text-color);
+    margin-top: 5px;
+}
+
+@media (min-width: 1400px) {
+    .formControl {
+        padding: 5px 0;
+    }
+}
+
+@media (min-width: 1700px) {
+    .campoPrecalificarForm,
+    .formControl {
+        font-size: 20px;
+    }
+}
