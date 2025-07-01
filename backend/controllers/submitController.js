@@ -1,21 +1,30 @@
 const axios = require('axios');
-const filestack = require('filestack-js');
+const cloudinary = require('cloudinary').v2;
 
-// Inicializa Filestack
-const client = filestack.init(process.env.FILESTACK_API_KEY);
+// Configuración de Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-async function uploadFileToFilestack(file) {
-    try {
-        const options = {
-            onProgress: (progress) => console.log('Progreso de carga:', progress),
-        };
-        const result = await client.upload(file.buffer, options);
-        return result.url;
-    } catch (error) {
-        console.error('Error al cargar archivo en Filestack:', error);
-        throw new Error('Error al cargar archivo en Filestack.');
-    }
-}
+// Subida a Cloudinary (desde buffer)
+const uploadToCloudinary = (file) => {
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+            {
+                folder: 'formularios',
+                resource_type: 'auto',
+            },
+            (error, result) => {
+                if (error) return reject(error);
+                resolve(result.secure_url);
+            }
+        );
+
+        stream.end(file.buffer);
+    });
+};
 
 exports.handleFormSubmit = async (req, res) => {
     const { nombre, telefono, email } = req.body;
@@ -23,6 +32,7 @@ exports.handleFormSubmit = async (req, res) => {
 
     try {
         let fileUrl = null;
+
         if (cv) {
             const allowedFormats = [
                 'application/pdf',
@@ -41,18 +51,19 @@ exports.handleFormSubmit = async (req, res) => {
                 return res.status(400).json({ message: 'El archivo es demasiado grande. Máximo 2 MB.' });
             }
 
-            fileUrl = await uploadFileToFilestack(cv);
+            // Subir a Cloudinary
+            fileUrl = await uploadToCloudinary(cv);
         }
 
-        // Guardar datos en Airtable
+        // Enviar a Airtable
         await axios.post(
             `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_TABLE_NAME}`,
             {
                 fields: {
-                    nombre,
-                    teléfono: telefono,
+                    name: nombre,
+                    phone: telefono,
                     email,
-                    CV: fileUrl ? [{ url: fileUrl }] : [],
+                    cv: fileUrl ? [{ url: fileUrl }] : [],
                 },
             },
             {
@@ -65,7 +76,7 @@ exports.handleFormSubmit = async (req, res) => {
 
         res.status(200).json({ message: 'Datos enviados correctamente.' });
     } catch (error) {
-        console.error(error);
+        console.error('Error al procesar el formulario:', error.message);
         res.status(500).json({ message: 'Hubo un problema al procesar el formulario.' });
     }
 };
