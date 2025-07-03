@@ -138,7 +138,7 @@ export const useForm = (initialState, submitCallback) => {
                 formDataToSend.append('cv', formData.cv);
             }
 
-            const response = await fetch('http://localhost:5000/api/submit', {
+            const response = await fetch('/backend/submit.php', {
                 method: 'POST',
                 body: formDataToSend,
             });
@@ -146,6 +146,12 @@ export const useForm = (initialState, submitCallback) => {
             const data = await response.json();
 
             if (response.ok) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: 'formulario_enviado',
+                });
+                console.log('Evento formulario_enviado enviado');
+
                 submitCallback(true, data);
                 resetForm();
             } else {

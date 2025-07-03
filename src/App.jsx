@@ -5,7 +5,7 @@ import { LandingPage } from './components/pages/LandingPage';
 
 function App() {
     return (
-        <BrowserRouter basename="/landing-campana-1-1.0">
+        <BrowserRouter>
             <ScrollToTop />
 
             <Routes>

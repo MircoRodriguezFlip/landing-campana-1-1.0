@@ -76,6 +76,13 @@
     margin-top: 5px;
 }
 
+@media (min-width: 1200px) {
+    .form {
+        padding: 40px 20px;
+        padding-bottom: 80px;
+    }
+}
+
 @media (min-width: 1400px) {
     .formControl {
         padding: 5px 0;
