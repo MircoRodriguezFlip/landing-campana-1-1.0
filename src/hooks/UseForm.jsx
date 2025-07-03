@@ -75,7 +75,9 @@ export const useForm = (initialState, submitCallback) => {
             setFormData((prev) => ({ ...prev, [name]: value }));
         }
 
-        setErrors((prev) => ({ ...prev, [name]: '' }));
+        setErrors((prev) => {
+            return Object.fromEntries(Object.entries(prev).filter(([key]) => key !== name));
+        });
     };
 
     const validateForm = () => {
