@@ -1,0 +1,10 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-navbar {
+    margin-top: 10px;
+    width: 100px;
+}
